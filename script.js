@@ -87,5 +87,39 @@
         sign.style.transform = d.open ? 'rotate(45deg)' : '';
       });
     });
+
+    // Mobile menu toggle
+    const burger = document.querySelector('.nav-burger');
+    const menu = document.querySelector('.mobile-menu');
+    if (burger && menu) {
+      const close = () => {
+        burger.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+        menu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+      const open = () => {
+        burger.setAttribute('aria-expanded', 'true');
+        menu.classList.add('open');
+        menu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      };
+      burger.addEventListener('click', () => {
+        const isOpen = burger.getAttribute('aria-expanded') === 'true';
+        isOpen ? close() : open();
+      });
+      // Close when a link is tapped
+      menu.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('click', close);
+      });
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') close();
+      });
+      // Close if viewport grows back to desktop while open
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 760 && menu.classList.contains('open')) close();
+      });
+    }
   });
 })();
