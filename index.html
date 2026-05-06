@@ -1,321 +1,513 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blue Stream Solutions LLC — Option 2: Wave Morph</title>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #1b2f4a;
-    background: #fafcff;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Blue Mic — AI Meeting Recorder for iPhone</title>
+<meta name="description" content="Blue Mic is the AI meeting recorder for iPhone. The right words, right when you need them." />
+<meta name="theme-color" content="#F1F5FB" />
+<meta property="og:title" content="Blue Mic — AI Meeting Recorder for iPhone" />
+<meta property="og:description" content="The right words. Right now. Crystal-clear transcripts, intelligent summaries, effortless action items." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
 
-  /* ── Nav ── */
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1rem 1.5rem;
-    background: #ffffff;
-    border-bottom: 1px solid #e6edf5;
-  }
-  nav .logo {
-    display: flex; align-items: center;
-    text-decoration: none;
-  }
-  nav .logo img { height: 110px; width: auto; }
-  nav .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-  nav .nav-links a { color: #1b2f4a; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
-  nav .nav-links a:hover { color: #1677d2; }
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  /* ── Hero with SVG wave ── */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 6rem 1.5rem 8rem;
-    background: linear-gradient(180deg, #eaf2fc 0%, #fafcff 100%);
-  }
-  .hero h1 {
-    font-size: clamp(2rem, 6vw, 3.2rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: #0a2a5e;
-    opacity: 0; animation: slideIn 0.7s 0.2s forwards;
-  }
-  .hero .tagline {
-    font-size: clamp(1rem, 3vw, 1.25rem);
-    color: #4a6a8a;
-    max-width: 500px;
-    margin-top: 0.75rem;
-    opacity: 0; animation: slideIn 0.7s 0.5s forwards;
-  }
-  .hero .cta-group {
-    margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-    opacity: 0; animation: slideIn 0.7s 0.8s forwards;
-  }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Animated SVG wave divider */
-  .wave-divider {
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-  }
-  .wave-divider svg { display: block; width: 100%; height: 80px; }
-  .wave-divider .wave-path {
-    animation: waveMorph 8s ease-in-out infinite alternate;
-  }
-  @keyframes waveMorph {
-    0%   { d: path("M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z"); }
-    100% { d: path("M0,50 C200,10 400,70 600,30 C800,60 1000,20 1200,50 L1200,80 L0,80 Z"); }
-  }
-
-  /* ── Buttons ── */
-  .btn {
-    display: inline-block; padding: 0.85rem 2rem; border-radius: 12px;
-    font-size: 1rem; font-weight: 600; text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; border: none;
-  }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(22,119,210,0.2); }
-  .btn-primary { background: #1677d2; color: #fff; }
-  .btn-outline { background: transparent; color: #1677d2; border: 2px solid #1677d2; }
-
-  /* ── App Icon Card ── */
-  .icon-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #ffffff;
-    border: 1px solid #e6edf5;
-    border-radius: 20px;
-    padding: 1.5rem 2.5rem 1.2rem;
-    margin: 0 auto 2rem;
-    width: fit-content;
-    box-shadow: 0 4px 20px rgba(22,119,210,0.08);
-  }
-  .app-icon {
-    width: 90px; height: 90px;
-    border-radius: 14px;
-    box-shadow: none;
-  }
-  .icon-card-label {
-    margin-top: 0.75rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #1054a0;
-  }
-
-  /* ── Audio Waveform Animation ── */
-  .waveform-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    margin: 2.5rem auto 0;
-    opacity: 0;
-    animation: slideIn 0.7s 1.1s forwards;
-  }
-  .waveform-bar span {
-    display: block;
-    width: 4px;
-    border-radius: 4px;
-    background: #1677d2;
-    animation: barBounce 1.2s ease-in-out infinite;
-  }
-  .waveform-bar span:nth-child(1)  { height: 16px; animation-delay: 0s; }
-  .waveform-bar span:nth-child(2)  { height: 28px; animation-delay: 0.1s; }
-  .waveform-bar span:nth-child(3)  { height: 40px; animation-delay: 0.2s; }
-  .waveform-bar span:nth-child(4)  { height: 52px; animation-delay: 0.3s; }
-  .waveform-bar span:nth-child(5)  { height: 36px; animation-delay: 0.4s; }
-  .waveform-bar span:nth-child(6)  { height: 48px; animation-delay: 0.5s; }
-  .waveform-bar span:nth-child(7)  { height: 32px; animation-delay: 0.6s; }
-  .waveform-bar span:nth-child(8)  { height: 44px; animation-delay: 0.7s; }
-  .waveform-bar span:nth-child(9)  { height: 20px; animation-delay: 0.8s; }
-  .waveform-bar span:nth-child(10) { height: 36px; animation-delay: 0.9s; }
-  .waveform-bar span:nth-child(11) { height: 24px; animation-delay: 1.0s; }
-  .waveform-bar span:nth-child(12) { height: 16px; animation-delay: 1.1s; }
-  @keyframes barBounce {
-    0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
-    50%      { transform: scaleY(1);   opacity: 1; }
-  }
-
-  /* ── Sections ── */
-  section { padding: 5rem 1.5rem; max-width: 960px; margin: 0 auto; }
-  .section-label {
-    text-transform: uppercase; font-size: 0.8rem; font-weight: 700;
-    color: #1677d2; letter-spacing: 0.1em; text-align: center; margin-bottom: 0.5rem;
-  }
-  .section-title {
-    font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700;
-    text-align: center; margin-bottom: 0.5rem;
-  }
-  .section-sub {
-    text-align: center; color: #62748a; margin-bottom: 3rem;
-    max-width: 480px; margin-left: auto; margin-right: auto;
-  }
-
-  /* ── Feature Steps (timeline style) ── */
-  .steps { display: flex; flex-direction: column; gap: 2.5rem; position: relative; padding-left: 3rem; }
-  .steps::before {
-    content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
-    width: 2px; background: linear-gradient(180deg, #1677d2, #c5dcf5);
-  }
-  .step {
-    position: relative;
-    opacity: 1; transform: translateX(0);
-    transition: opacity 0.5s, transform 0.5s;
-  }
-  .step.hidden { opacity: 0; transform: translateX(-20px); }
-  .step.visible { opacity: 1; transform: translateX(0); }
-  .step-dot {
-    position: absolute; left: -3rem; top: 4px;
-    width: 28px; height: 28px; border-radius: 50%;
-    background: #1677d2; color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem; font-weight: 700;
-  }
-  .step h3 { font-size: 1.2rem; margin-bottom: 0.3rem; }
-  .step p  { color: #62748a; font-size: 0.95rem; }
-
-  /* ── About ── */
-  #about { text-align: center; }
-  #about p { color: #62748a; max-width: 580px; margin: 0 auto 1rem; }
-
-  /* ── Contact ── */
-  .contact-card {
-    background: linear-gradient(135deg, #0a2a5e, #1677d2);
-    border-radius: 20px; padding: 3rem 2rem; text-align: center;
-    max-width: 600px; margin: 0 auto 4rem; color: #fff;
-  }
-  .contact-card h2 { margin-bottom: 0.5rem; }
-  .contact-card p  { color: rgba(255,255,255,0.8); margin-bottom: 1.5rem; }
-  .contact-card a.btn-primary { background: #fff; color: #1677d2; }
-
-  /* ── Footer ── */
-  footer {
-    text-align: center; padding: 2rem 1rem; font-size: 0.85rem;
-    color: #62748a; border-top: 1px solid #e6edf5;
-  }
-
-  @media (max-width: 640px) {
-    .app-icon { width: 75px; height: 75px; }
-    nav .logo img { height: 75px; }
-    nav .nav-links { gap: 1rem; }
-    nav .nav-links a { font-size: 0.85rem; }
-    .waveform-bar span { width: 3px; }
-  }
-</style>
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<nav>
-  <a href="#" class="logo">
-    <img src="bluestreamsolutionsllc.png" alt="Blue Stream Solutions LLC">
-  </a>
-  <ul class="nav-links">
-    <li><a href="#features">Blue Mic</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+<div class="bg-stage" aria-hidden="true"></div>
 
-<header class="hero">
-  <h1>Record. Transcribe. Summarize.</h1>
-  <p class="tagline">Blue Mic turns every meeting into searchable, shareable knowledge — automatically.</p>
-  <div class="cta-group">
-    <a href="#features" class="btn btn-primary">See How It Works</a>
-    <a href="#contact" class="btn btn-outline">Contact Us</a>
-  </div>
-  <div class="waveform-bar">
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-  </div>
-  <div class="wave-divider">
-    <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
-      <path class="wave-path" fill="#fafcff"
-        d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z"/>
-    </svg>
+<!-- Nav -->
+<header class="nav">
+  <div class="container nav-row">
+    <a href="#top" class="brand" aria-label="Blue Mic home">
+      <svg class="logo" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"  stop-color="#3B82F6"/>
+            <stop offset="55%" stop-color="#1E5FE6"/>
+            <stop offset="100%" stop-color="#1E3A8A"/>
+          </linearGradient>
+        </defs>
+        <circle cx="18" cy="18" r="17" fill="url(#lg)"/>
+        <rect x="14.5" y="9" width="7" height="13" rx="3.5" fill="white"/>
+        <path d="M11 19a7 7 0 0014 0" stroke="white" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+        <line x1="18" y1="24" x2="18" y2="27.5" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
+      <span>Blue Mic</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#works">How It Works</a>
+      <a href="#why">Product</a>
+      <a href="#security">Security</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="mailto:info@blue-mic.com">Contact</a>
+    </div>
   </div>
 </header>
 
-<section id="features">
-  <div class="icon-card">
-    <img src="bluemic.png" alt="Blue Mic" class="app-icon">
-    <p class="icon-card-label">How Blue Mic Works</p>
+<main id="top">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-glow" aria-hidden="true"></div>
+
+    <div class="hero-mark">
+      <div class="waveform" aria-hidden="true"></div>
+      <img class="hero-logo-img" src="logo.png" alt="Blue Mic"
+           onerror="this.remove()">
+      <svg class="hero-logo-svg" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="hg" x1="0" y1="0" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"  stop-color="#3B82F6"/>
+            <stop offset="55%" stop-color="#1E5FE6"/>
+            <stop offset="100%" stop-color="#1E3A8A"/>
+          </linearGradient>
+        </defs>
+        <circle cx="48" cy="48" r="46" fill="url(#hg)"/>
+        <rect x="38" y="22" width="20" height="36" rx="10" fill="white"/>
+        <path d="M28 50a20 20 0 0040 0" stroke="white" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        <line x1="48" y1="64" x2="48" y2="74" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <span class="eyebrow">AI Meeting Recorder for iPhone</span>
+    <h1>Record. Refine.<br><span class="italic">Take Action.</span></h1>
+    <p class="lede">
+      Helping you capture, transcribe, and understand every meeting on iPhone. Recording with Blue Mic is fast, fluid, and remarkably accurate.
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary btn-lg" href="#how">
+        See How It Works <span class="arrow">→</span>
+      </a>
+    </div>
+
   </div>
-  <h2 class="section-title">Three Steps to Clarity</h2>
-  <p class="section-sub">From raw audio to actionable insight in seconds.</p>
-  <div class="steps">
-    <div class="step">
-      <div class="step-dot">1</div>
-      <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1677d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><rect x="9" y="1" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="18" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Record</h3>
-      <p>Tap once to capture crystal-clear audio from any meeting, lecture, or conversation on your iPhone.</p>
-    </div>
-    <div class="step">
-      <div class="step-dot">2</div>
-      <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1677d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg> Transcribe</h3>
-      <p>Audio is automatically converted into accurate, searchable text — no manual work needed.</p>
-    </div>
-    <div class="step">
-      <div class="step-dot">3</div>
-      <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1677d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Summarize</h3>
-      <p>Get concise, AI-powered summaries highlighting key decisions, action items, and takeaways.</p>
+</section>
+
+<!-- Stats — metric ribbon -->
+<section class="stats-ribbon-section" style="padding: clamp(40px, 6vw, 64px) 0 0;">
+  <div class="container">
+    <div class="stats-ribbon">
+      <div class="ribbon-stat">
+        <div class="ribbon-num">99<span class="ribbon-unit">%</span></div>
+        <div class="ribbon-label">Transcription accuracy</div>
+        <div class="ribbon-sub">Even on noisy speakerphones</div>
+      </div>
+      <div class="ribbon-stat">
+        <div class="ribbon-num">35<span class="ribbon-unit">+</span></div>
+        <div class="ribbon-label">Languages supported</div>
+        <div class="ribbon-sub">From English to Japanese</div>
+      </div>
+      <div class="ribbon-stat">
+        <div class="ribbon-num">2<span class="ribbon-unit">×</span></div>
+        <div class="ribbon-label">Faster meeting follow-ups</div>
+        <div class="ribbon-sub">Versus typing notes by hand</div>
+      </div>
+      <div class="ribbon-stat">
+        <div class="ribbon-num ribbon-num--text">End-to-end</div>
+        <div class="ribbon-label">Encrypted, subscriber-only sharing</div>
+        <div class="ribbon-sub">Never on the public web</div>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="about">
-  <p class="section-label">About Us</p>
-  <h2 class="section-title">Simple, Useful Software</h2>
-  <p>Blue Stream Solutions builds practical tools to help you manage meetings, notes, and information. We believe the best software disappears — it just works.</p>
-  <p>Blue Mic is our flagship iPhone app, built from the ground up to make capturing and understanding conversations effortless.</p>
-</section>
+<!-- How Blue Mic Works (3-beat workflow) -->
+<section id="works" class="works reveal">
+  <div class="container" style="text-align:center;">
+    <span class="eyebrow">How Blue Mic Works</span>
+    <h2 style="max-width:18ch; margin-left:auto; margin-right:auto;">Record meetings. Get AI notes. <span class="italic">Edit before you share.</span></h2>
+    <p class="lede" style="margin: 18px auto 0; text-align:center;">
+      Blue Mic turns conversations into editable AI meeting notes, action items, and transcripts — so you can review, refine, and share with confidence.
+    </p>
 
-<section id="contact">
-  <div class="contact-card">
-    <h2>Get in Touch</h2>
-    <p>Questions, feedback, or partnership ideas — we'd love to hear from you.</p>
-    <a href="mailto:support@blue-mic.com" class="btn btn-primary">support@blue-mic.com</a>
+    <div class="three-beats">
+      <article class="beat">
+        <h3>Accurate Recording</h3>
+        <p>Crystal-clear capture of every voice — in person, on speakerphone, or alongside a video call.</p>
+      </article>
+      <article class="beat">
+        <h3>Instant AI-Generated Notes</h3>
+        <p>Transcripts, summaries, and action items the moment your meeting ends — no waiting, no manual typing.</p>
+      </article>
+      <article class="beat">
+        <h3>Easy Editing Before Sharing</h3>
+        <p>Review, refine, and polish the AI-generated notes before you send them. What goes out is exactly what you mean.</p>
+      </article>
+    </div>
   </div>
 </section>
 
-<footer>&copy; 2026 Blue Stream Solutions LLC. All rights reserved.</footer>
+<!-- Why -->
+<section id="why" class="why reveal">
+  <div class="container">
+    <span class="eyebrow">Why Blue Mic</span>
+    <h2>A fresh way to capture, transcribe, and understand every conversation.</h2>
 
-<script>
-  // Hide steps via JS so they animate in on scroll.
-  // If JS doesn't run (e.g. local file on iOS), steps stay visible by default.
-  const steps = document.querySelectorAll('.step');
-  steps.forEach(el => el.classList.add('hidden'));
+    <div class="cards">
+      <article class="card">
+        <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="13" y="4" width="6" height="14" rx="3"/>
+          <path d="M9 16a7 7 0 0014 0"/>
+          <line x1="16" y1="23" x2="16" y2="28"/>
+          <line x1="11" y1="28" x2="21" y2="28"/>
+        </svg>
+        <h3>AI Transcription</h3>
+        <p>Crystal-clear text from every voice in the room. State-of-the-art on-device speech recognition with editable speaker labels and timestamps — even on a noisy speakerphone.</p>
+      </article>
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.remove('hidden');
-          entry.target.classList.add('visible');
-        }, i * 200);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.2 });
-  steps.forEach(el => observer.observe(el));
-</script>
+      <article class="card">
+        <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 6h16"/>
+          <path d="M8 12h16"/>
+          <path d="M8 18h10"/>
+          <path d="M22 22l3 3 5-5"/>
+        </svg>
+        <h3>AI Summaries &amp; Action Items</h3>
+        <p>From an hour of talk to a minute of clarity. Blue Mic distills every meeting into key takeaways, decisions, and action items — automatically assigned and ready to share.</p>
+      </article>
+
+      <article class="card">
+        <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="14" cy="14" r="8"/>
+          <line x1="20" y1="20" x2="27" y2="27"/>
+        </svg>
+        <h3>Searchable Archive</h3>
+        <p>Every word of every meeting, searchable. Find a quote in seconds, jump straight to the moment it was said, and copy it out — your meetings become a library you can actually use.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Product 01 -->
+<section id="how" class="product reveal">
+  <div class="container">
+    <div class="product-row">
+      <div class="product-text">
+        <h2>Blue Mic <span class="italic">Capture.</span></h2>
+        <p class="lede">
+          One tap. The whole meeting. A live waveform confirms every word is being captured, and Blue Mic delivers a polished transcript and summary the moment you stop recording.
+        </p>
+        <ul>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Punctuated, timestamped transcripts you can search and edit</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Works in person, on speakerphone, or alongside video calls</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Searchable archive of every meeting on your device</li>
+        </ul>
+      </div>
+
+      <div class="product-visual">
+        <div class="iphone" role="img" aria-label="Blue Mic iPhone app — recording screen">
+          <div class="iphone-screen iphone-screen--app">
+            <div class="iphone-status">
+              <span>3:00</span>
+              <span class="status-right">
+                <svg width="14" height="9" viewBox="0 0 14 9" fill="currentColor" aria-hidden="true"><rect x="0"  y="6" width="2" height="3" rx="0.4"/><rect x="3"  y="4" width="2" height="5" rx="0.4"/><rect x="6"  y="2" width="2" height="7" rx="0.4"/><rect x="9"  y="0" width="2" height="9" rx="0.4" opacity="0.35"/></svg>
+                <svg width="13" height="9" viewBox="0 0 13 9" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><path d="M1 4.2a8 8 0 0111 0"/><path d="M3 6a5 5 0 017 0"/><circle cx="6.5" cy="7.7" r="0.7" fill="currentColor"/></svg>
+                <span class="batt"><span class="batt-fill"></span></span>
+              </span>
+            </div>
+
+            <div class="rec-app">
+              <h4 class="rec-title">Recording</h4>
+              <button type="button" class="rec-pause">Pause</button>
+
+              <div class="rec-timer">6:51</div>
+
+              <div class="iphone-wave rec-wave" aria-hidden="true"></div>
+
+              <div class="rec-bottom">
+                <div class="rec-stop-wrap">
+                  <svg class="rec-stop-orbit" viewBox="0 0 100 100" aria-hidden="true">
+                    <circle cx="50" cy="50" r="46" fill="none"
+                            stroke="rgba(120, 175, 255, 0.55)" stroke-width="5.5"
+                            stroke-linecap="round"
+                            pathLength="360" stroke-dasharray="60 360"/>
+                  </svg>
+                  <button type="button" class="rec-stop" aria-label="Stop recording">
+                    <span class="rec-stop-icon"></span>
+                  </button>
+                </div>
+                <span class="rec-dark">Dark</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Product 02 -->
+<section class="product reveal" style="background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%); border-top: none;">
+  <div class="container">
+    <div class="product-row reverse">
+      <div class="product-text">
+        <span class="tier-badge tier-badge--solo">
+          <svg viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M6 0.5l1.4 3.1L10.5 5l-3.1 1.4L6 9.5 4.6 6.4 1.5 5l3.1-1.4z"/></svg>
+          Enterprise Tier
+        </span>
+        <h2>Blue Mic <span class="italic">Sales Coach.</span></h2>
+        <p class="lede">
+          Turn every call into a coached one. Assign roles to each speaker — Sales Rep, Client Contact — and Blue Mic runs a complete post-call workflow: wins, coaching feedback, drafted follow-up emails, and CRM-ready notes. Available on the Blue Mic <strong>Enterprise tier</strong>.
+        </p>
+        <ul>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Top 3 post-meeting wins surfaced for every call</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Coaching feedback on what was missed or could improve</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Drafted follow-up emails &amp; CRM-synced summary notes</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Seamlessly auto-retrieve email addresses via a custom CRM interface</li>
+        </ul>
+        <p class="contact-line">
+          Contact <a href="mailto:info@blue-mic.com">info@blue-mic.com</a> for more info on Sales Coach and the Enterprise tier.
+        </p>
+      </div>
+
+      <div class="product-visual">
+        <div class="coach-card" aria-hidden="true">
+          <div class="coach-head">
+            <span class="coach-close">Close</span>
+            <span class="coach-title">Sales Coach</span>
+            <span></span>
+          </div>
+
+          <div class="coach-section-label">Speakers</div>
+
+          <div class="coach-speaker">
+            <div class="coach-speaker-info">
+              <div class="name">Alex Morgan</div>
+              <div class="email">amorgan@northstar-co.com
+                <svg class="link-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 9.5l3-3"/><path d="M9 5l1.2-1.2a2.4 2.4 0 113.4 3.4L12.4 8.4"/><path d="M7 11l-1.2 1.2a2.4 2.4 0 11-3.4-3.4L3.6 7.6"/></svg>
+              </div>
+            </div>
+            <div class="role">Sales Rep
+              <svg viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5l3-3 3 3"/><path d="M3 9l3 3 3-3"/></svg>
+            </div>
+          </div>
+
+          <div class="coach-speaker">
+            <div class="coach-speaker-info">
+              <div class="name">Jamie Park</div>
+              <div class="email">jpark@summit-edu.org
+                <svg class="link-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 9.5l3-3"/><path d="M9 5l1.2-1.2a2.4 2.4 0 113.4 3.4L12.4 8.4"/><path d="M7 11l-1.2 1.2a2.4 2.4 0 11-3.4-3.4L3.6 7.6"/></svg>
+              </div>
+            </div>
+            <div class="role">Client Contact
+              <svg viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5l3-3 3 3"/><path d="M3 9l3 3 3-3"/></svg>
+            </div>
+          </div>
+
+          <div class="coach-speaker">
+            <div class="coach-speaker-info">
+              <div class="name">Riley Chen</div>
+              <div class="email">rchen@northstar-co.com
+                <svg class="link-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 9.5l3-3"/><path d="M9 5l1.2-1.2a2.4 2.4 0 113.4 3.4L12.4 8.4"/><path d="M7 11l-1.2 1.2a2.4 2.4 0 11-3.4-3.4L3.6 7.6"/></svg>
+              </div>
+            </div>
+            <div class="role">Sales Rep
+              <svg viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5l3-3 3 3"/><path d="M3 9l3 3 3-3"/></svg>
+            </div>
+          </div>
+
+          <div class="coach-section-label" style="margin-top:14px;">Assistant Process</div>
+
+          <div class="coach-process-item">
+            <span class="check-green">
+              <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5l2.5 2.5L11 4.5"/></svg>
+            </span>
+            <div>
+              <div class="proc-title">Post Meeting Wins</div>
+              <div class="proc-sub">Top 3 wins from the call</div>
+            </div>
+            <span class="chev">›</span>
+          </div>
+
+          <div class="coach-process-item">
+            <span class="check-green">
+              <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5l2.5 2.5L11 4.5"/></svg>
+            </span>
+            <div>
+              <div class="proc-title">Coaching Suggestions</div>
+              <div class="proc-sub">What was missed or could improve</div>
+            </div>
+            <span class="chev">›</span>
+          </div>
+
+          <div class="coach-process-item">
+            <span class="check-green">
+              <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5l2.5 2.5L11 4.5"/></svg>
+            </span>
+            <div>
+              <div class="proc-title">Draft Client Emails</div>
+              <div class="proc-sub">Draft and schedule follow-up emails</div>
+            </div>
+            <span class="chev">›</span>
+          </div>
+
+          <div class="coach-process-item">
+            <span class="check-green">
+              <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5l2.5 2.5L11 4.5"/></svg>
+            </span>
+            <div>
+              <div class="proc-title">Sales Summary Notes</div>
+              <div class="proc-sub">Review/update/send notes to Bullhorn CRM</div>
+            </div>
+            <span class="chev">›</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Privacy & Security -->
+<section id="security" class="security reveal">
+  <div class="container">
+    <div style="text-align:center; max-width:780px; margin:0 auto clamp(40px,6vw,64px);">
+      <span class="eyebrow">Privacy &amp; Security</span>
+      <h2>Your meetings stay private &mdash; by design.</h2>
+      <p class="lede" style="margin:18px auto 0; text-align:center;">
+        Blue Mic was built privacy-first. Meetings are shared through secure, expiring codes — not public links that can leak, get indexed, or be accessed by anyone who stumbles on them. Both sender and receiver must be verified Blue Mic subscribers.
+      </p>
+    </div>
+
+    <div class="security-grid">
+      <article class="sec-card">
+        <span class="sec-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="14" width="18" height="13" rx="2"/><path d="M11 14V9a5 5 0 0110 0v5"/><circle cx="16" cy="20" r="1.5" fill="currentColor"/><path d="M16 22v2"/></svg>
+        </span>
+        <h4>Encrypted in AWS</h4>
+        <p>Audio files are encrypted at rest in AWS, with public access blocked and backend access tightly controlled.</p>
+      </article>
+
+      <article class="sec-card">
+        <span class="sec-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="13" r="5"/><path d="M7 26a9 9 0 0118 0"/></svg>
+        </span>
+        <h4>Subscriber-only access</h4>
+        <p>Your meetings are only accessible to authenticated Blue Mic subscribers — never exposed on the open web.</p>
+      </article>
+
+      <article class="sec-card">
+        <span class="sec-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="11"/><path d="M16 9v7l4 2"/></svg>
+        </span>
+        <h4>Expiring share codes</h4>
+        <p>Share codes expire automatically and are designed to resist brute-force guessing.</p>
+      </article>
+
+      <article class="sec-card">
+        <span class="sec-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7l11 6 11-6"/><rect x="5" y="7" width="22" height="18" rx="2"/><path d="M7 25l8-7M25 25l-8-7"/></svg>
+        </span>
+        <h4>No public exposure</h4>
+        <p>No link previews, no browser history, no accidental indexing — your meeting content stays private.</p>
+      </article>
+
+      <article class="sec-card">
+        <span class="sec-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4l9 4v8c0 6-4 10-9 12-5-2-9-6-9-12V8z"/><path d="M11 16l4 4 6-7"/></svg>
+        </span>
+        <h4>Verified end-to-end</h4>
+        <p>Every share is verified subscriber-to-subscriber, on both the sender and receiver side.</p>
+      </article>
+
+      <article class="sec-card">
+        <span class="sec-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="9" width="20" height="14" rx="2"/><path d="M6 13h20"/><path d="M10 18h4M18 18h4"/></svg>
+        </span>
+        <h4>Secure sessions</h4>
+        <p>Sign-in stays simple, but sessions expire automatically to keep your account safe even on shared devices.</p>
+      </article>
+    </div>
+
+    <div class="security-callout">
+      <p><strong>Why this matters.</strong> Many transcription tools share meetings through public web links — and the moment one of those URLs ends up somewhere it shouldn't, the meeting is gone:</p>
+      <ul>
+        <li>Public links / "anyone with a link" means a leaked URL = leaked meeting content</li>
+        <li>Web viewers get crawled, cached, and screenshotted by link-preview bots</li>
+        <li>Browser history and shared devices can persist content long after the share is "revoked"</li>
+        <li>No authentication requirement means no accountability for who accessed what</li>
+      </ul>
+      <p>Blue Mic was designed to close every one of those gaps.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="reveal">
+  <div class="container" style="max-width: 760px; text-align:center;">
+    <span class="eyebrow">FAQ</span>
+    <h2>Frequently asked questions.</h2>
+
+    <div style="margin-top: clamp(40px, 6vw, 64px); text-align: left; display: grid; gap: 12px;">
+      <details class="card" style="padding: 0;">
+        <summary style="cursor:pointer; padding: 22px 26px; font-weight: 600; list-style: none; display:flex; justify-content: space-between; align-items: center;">
+          Does Blue Mic work offline?
+          <span style="color: var(--blue); font-size: 22px; transition: transform .2s;">+</span>
+        </summary>
+        <div style="padding: 0 26px 22px; color: var(--muted); font-size: 15px;">Recording and live transcription run entirely on your iPhone, so you can capture meetings even without a connection. AI summaries are generated when you're back online.</div>
+      </details>
+      <details class="card" style="padding: 0;">
+        <summary style="cursor:pointer; padding: 22px 26px; font-weight: 600; list-style: none; display:flex; justify-content: space-between; align-items: center;">
+          How accurate is the transcription?
+          <span style="color: var(--blue); font-size: 22px;">+</span>
+        </summary>
+        <div style="padding: 0 26px 22px; color: var(--muted); font-size: 15px;">Blue Mic uses Apple's latest on-device speech models tuned for meeting audio. Accuracy holds up well in real-world conditions — speakerphones, conference rooms, and noisy cafés alike.</div>
+      </details>
+      <details class="card" style="padding: 0;">
+        <summary style="cursor:pointer; padding: 22px 26px; font-weight: 600; list-style: none; display:flex; justify-content: space-between; align-items: center;">
+          Where is my audio stored?
+          <span style="color: var(--blue); font-size: 22px;">+</span>
+        </summary>
+        <div style="padding: 0 26px 22px; color: var(--muted); font-size: 15px;">Recordings live on your device by default. You choose if and when anything leaves your phone, and you can delete a recording — and its transcript — at any time.</div>
+      </details>
+      <details class="card" style="padding: 0;">
+        <summary style="cursor:pointer; padding: 22px 26px; font-weight: 600; list-style: none; display:flex; justify-content: space-between; align-items: center;">
+          Which languages are supported?
+          <span style="color: var(--blue); font-size: 22px;">+</span>
+        </summary>
+        <div style="padding: 0 26px 22px; color: var(--muted); font-size: 15px;">Blue Mic supports 35+ languages today, including English (US, UK, AU), Spanish, French, German, and Japanese — with more being added as the underlying speech models expand.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand">
+          <svg class="logo" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="18" cy="18" r="17" fill="rgba(255,255,255,0.12)"/>
+            <rect x="14.5" y="9" width="7" height="13" rx="3.5" fill="white"/>
+            <path d="M11 19a7 7 0 0014 0" stroke="white" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+            <line x1="18" y1="24" x2="18" y2="27.5" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          <span>Blue Mic</span>
+        </div>
+      </div>
+
+      <div class="footer-side">
+        <a href="mailto:info@blue-mic.com">info@blue-mic.com</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Blue Stream Solutions LLC. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
