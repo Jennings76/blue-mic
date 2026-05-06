@@ -263,6 +263,14 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
 .mobile-menu-links a:active { transform: translateX(4px); }
 
 @media (max-width: 760px) {
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+  }
+  .nav-row > .brand,
+  .nav-row > .nav-cta { justify-self: auto; }
   .nav-links { display: none; }
   .nav-cta .login { display: none; }
   .nav-burger { display: flex; }
