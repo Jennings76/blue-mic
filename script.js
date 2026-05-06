@@ -1,5 +1,5 @@
 /* ============================================================
-   Blue Mic — Interactions
+   Blue Mic - Interactions
    ============================================================ */
 
 (function () {
@@ -29,7 +29,7 @@
     const heroWave = document.querySelector('.hero-mark .waveform');
     buildBars(heroWave, 36, { maxH: 60, minH: 6 });
 
-    // iPhone mockup waveform — full-width recording screen, dense bars
+    // iPhone mockup waveform: full-width recording screen, dense bars
     // Modulated envelope (not pure random) so the waveform reads as "speech".
     const wave = document.querySelector('.rec-wave');
     if (wave) {

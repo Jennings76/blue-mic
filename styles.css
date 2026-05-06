@@ -1,11 +1,11 @@
 /* ============================================================
-   Blue Mic — Editorial blue redesign
+   Blue Mic - Editorial blue redesign
    Inspired by emberhiring.com structure, blue palette,
    serif headlines with italic emphasis.
    ============================================================ */
 
 :root {
-  /* Cool, near-white background — the blue equivalent of Ember's cream */
+  /* Cool, near-white background (the blue equivalent of Ember's cream) */
   --bg:        #F1F5FB;
   --bg-soft:   #E8EFF9;
   --paper:     #FFFFFF;
@@ -75,7 +75,7 @@ a { color: inherit; text-decoration: none; }
 img, svg { max-width: 100%; display: block; }
 
 /* ----------------------------------------------------------
-   Subtle background — cool tint + soft glow
+   Subtle background: cool tint + soft glow
    ---------------------------------------------------------- */
 .bg-stage {
   position: fixed;
@@ -482,7 +482,7 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
 }
 
 /* ----------------------------------------------------------
-   "How Blue Mic Works" — 3-beat workflow section
+   "How Blue Mic Works" 3-beat workflow section
    ---------------------------------------------------------- */
 .works h2 { letter-spacing: -0.02em; }
 .three-beats {
@@ -871,7 +871,7 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
 }
 
 /* ----------------------------------------------------------
-   iPhone — Real Blue Mic recording screen recreation
+   iPhone: Real Blue Mic recording screen recreation
    Matches the actual app screenshot, but with a live waveform.
    ---------------------------------------------------------- */
 .iphone-screen--app {
@@ -1208,7 +1208,194 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
 }
 
 /* ----------------------------------------------------------
-   Final CTA — full-bleed blue
+   CRM integrations sub-band (under Sales Coach)
+   ---------------------------------------------------------- */
+.crm-band {
+  margin-top: clamp(48px, 7vw, 80px);
+  padding-top: clamp(36px, 5vw, 56px);
+  border-top: 1px solid var(--line-soft);
+}
+.crm-band-eyebrow {
+  display: block;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 36px;
+}
+.crm-tiers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+  max-width: 980px;
+  margin: 0 auto;
+  align-items: start;
+}
+.crm-tier {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.crm-tier-title {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.crm-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 16px;
+  background: white;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.crm-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: rgba(30,95,230,0.18);
+}
+
+/* Roadmap pills */
+.crm-roadmap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.crm-roadmap-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+  transition: border-color 0.2s ease;
+}
+.crm-roadmap-item:hover { border-color: rgba(30,95,230,0.22); }
+
+/* CTA tier */
+.crm-tier--cta { gap: 12px; }
+.crm-cta-text {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0;
+}
+.crm-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue);
+  border-bottom: 1px solid rgba(30,95,230,0.30);
+  padding-bottom: 1px;
+  align-self: flex-start;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.crm-cta-link:hover {
+  color: var(--blue-deep);
+  border-bottom-color: var(--blue-deep);
+}
+.crm-cta-link .arrow { transition: transform 0.2s ease; }
+.crm-cta-link:hover .arrow { transform: translateX(3px); }
+.crm-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.crm-name {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  line-height: 1;
+}
+
+/* Bullhorn logo lockup */
+.crm-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.crm-logo-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.crm-wordmark {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.crm-brand-logo {
+  height: 40px;
+  width: auto;
+  max-width: 140px;
+  display: block;
+  object-fit: contain;
+}
+.crm-status {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  background: var(--bg-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.crm-status--live {
+  color: #0F7A3F;
+  background: rgba(52, 199, 89, 0.12);
+}
+.crm-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34C759;
+  box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.18);
+  animation: live-pulse 2.4s ease-in-out infinite;
+}
+@keyframes live-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.18); }
+  50%      { box-shadow: 0 0 0 6px rgba(52, 199, 89, 0); }
+}
+.crm-chip--live { border-color: rgba(52, 199, 89, 0.30); }
+
+@media (max-width: 760px) {
+  .crm-tiers {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    max-width: 460px;
+  }
+}
+
+/* ----------------------------------------------------------
+   Final CTA: full-bleed blue
    ---------------------------------------------------------- */
 .cta {
   background: var(--grad-cta);
