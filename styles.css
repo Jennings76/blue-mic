@@ -172,12 +172,13 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 26px;
-  letter-spacing: -0.025em;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
   line-height: 1;
-  color: var(--ink);
+  color: var(--blue);
 }
 .brand .logo { width: 34px; height: 34px; flex-shrink: 0; }
 .nav-links {
@@ -1459,7 +1460,7 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
   color: var(--footer-mute);
   letter-spacing: 0.01em;
 }
-.footer .brand { color: white; font-size: 28px; }
+.footer .brand { color: white; font-size: 13px; }
 .footer .brand .logo { width: 32px; height: 32px; }
 .footer-tag {
   font-size: 13px;
