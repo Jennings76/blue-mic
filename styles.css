@@ -172,10 +172,11 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 19px;
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 26px;
+  letter-spacing: -0.025em;
+  line-height: 1;
   color: var(--ink);
 }
 .brand .logo { width: 34px; height: 34px; flex-shrink: 0; }
@@ -1458,7 +1459,7 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
   color: var(--footer-mute);
   letter-spacing: 0.01em;
 }
-.footer .brand { color: white; font-size: 22px; }
+.footer .brand { color: white; font-size: 28px; }
 .footer .brand .logo { width: 32px; height: 32px; }
 .footer-tag {
   font-size: 13px;
