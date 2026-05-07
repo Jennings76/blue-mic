@@ -229,15 +229,15 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
 .mobile-menu {
   display: none;
   position: fixed;
-  top: 70px;
+  top: 0;
   left: 0;
   right: 0;
-  height: calc(100vh - 70px);
-  height: calc(100dvh - 70px);    /* dynamic viewport, accounts for iOS toolbar */
+  height: 100vh;
+  height: 100dvh;                 /* dynamic viewport, accounts for iOS toolbar */
   background: #F1F5FB;            /* solid fallback */
   background: var(--bg);
   z-index: 49;
-  padding: 32px var(--gutter) 48px;
+  padding: 102px var(--gutter) 48px;   /* 70px nav + 32px breathing room */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -250,11 +250,11 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
 }
 .mobile-menu-links a {
   font-family: var(--font-serif);
-  font-size: 36px;
+  font-size: 24px;
   font-weight: 400;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   color: var(--ink);
-  padding: 20px 0;
+  padding: 16px 0;
   border-bottom: 1px solid var(--line-soft);
   display: block;
   transition: color 0.2s ease, transform 0.2s ease;
@@ -1349,9 +1349,9 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
   line-height: 1;
 }
 .crm-brand-logo {
-  height: 40px;
+  height: 80px;
   width: auto;
-  max-width: 140px;
+  max-width: 280px;
   display: block;
   object-fit: contain;
 }
