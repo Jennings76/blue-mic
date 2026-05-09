@@ -180,7 +180,14 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
   line-height: 1;
   color: var(--blue);
 }
-.brand .logo { width: 34px; height: 34px; flex-shrink: 0; }
+.brand .logo { width: 52px; height: 52px; flex-shrink: 0; }
+.brand .brand-logo-img {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+}
 .nav-links {
   display: flex;
   align-items: center;
@@ -345,8 +352,8 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
   50%      { opacity: 1;   transform: translateX(-50%) scale(1.06); }
 }
 .hero-mark {
-  width: 112px;
-  height: 112px;
+  width: 128px;
+  height: 128px;
   margin: 0 auto 28px;
   position: relative;
 }
