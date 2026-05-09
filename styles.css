@@ -181,6 +181,13 @@ section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
   color: var(--blue);
 }
 .brand .logo { width: 34px; height: 34px; flex-shrink: 0; }
+.brand .brand-logo-img {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+}
 .nav-links {
   display: flex;
   align-items: center;
