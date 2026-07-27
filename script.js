@@ -123,3 +123,33 @@
     }
   });
 })();
+
+/* Manager Dashboard: click/hover a panel to open it enlarged and centered */
+document.addEventListener('DOMContentLoaded', function () {
+  var lb = document.getElementById('mgrLightbox');
+  if (!lb) return;
+  var img = document.getElementById('mgrLightboxImg');
+  var closeBtn = lb.querySelector('.mgr-lb-close');
+  var hoverTimer = null;
+  function openLb(src, label) {
+    img.src = src; img.alt = label || '';
+    lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  var canHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
+  Array.prototype.forEach.call(document.querySelectorAll('.mgr-win, .img-zoom'), function (h) {
+    h.addEventListener('click', function () {
+      if (hoverTimer) { clearTimeout(hoverTimer); hoverTimer = null; }
+      openLb(h.getAttribute('data-img'), h.getAttribute('aria-label'));
+    });
+  });
+  closeBtn.addEventListener('click', closeLb);
+  lb.addEventListener('click', function () { closeLb(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && lb.classList.contains('open')) closeLb();
+  });
+});
